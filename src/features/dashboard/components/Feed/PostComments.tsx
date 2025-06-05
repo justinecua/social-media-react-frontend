@@ -1,0 +1,48 @@
+import { useGetCommentsQuery } from "@/redux/services/posts/posts";
+import NoProfile from "@/assets/images/No-Profile.jpg";
+import { useState } from "react";
+
+const PostComments = ({ post }) => {
+  const { data: comments, isFetching } = useGetCommentsQuery({
+    post_id: post?.id,
+  });
+
+  const [imgErrors, setImgErrors] = useState({});
+
+  const setImgError = (index) => {
+    setImgErrors((prev) => ({ ...prev, [index]: true }));
+  };
+
+  return (
+    <>
+      {post && comments?.length > 0 ? (
+        <div className="flex flex-col ">
+          {comments.map((comment, index) => (
+            <div
+              key={comment.id}
+              className="bg-[var(--home-card)] rounded-lg p-1"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <img
+                  src={imgErrors[index] ? NoProfile : comment?.profile_photo}
+                  alt={comment.username}
+                  className="w-8 h-8 rounded-full object-cover"
+                  onError={() => setImgError(index)}
+                />
+                <span className="font-semibold">{comment.username}</span>
+              </div>
+              <p>{comment.comment}</p>
+            </div>
+          ))}
+          {isFetching && <p>Loading comments...</p>}
+        </div>
+      ) : isFetching ? (
+        <p>Loading comments...</p>
+      ) : (
+        <p className="text-[var(--color-subtitle)]">No comments yet.</p>
+      )}
+    </>
+  );
+};
+
+export default PostComments;
