@@ -47,16 +47,17 @@ const CommentModal = ({ open, onClose, post }) => {
           <DialogDescription
             className={`${
               hasPhotos
-                ? "md:border-l md:h-[60vh] md:w-[50%] lg:w-[45%] flex flex-col"
-                : "h-[50vh] flex flex-col"
+                ? "md:border-l md:h-[60vh] md:w-[50%] lg:w-[45%] flex flex-col overflow-y-auto custom-scrollbar"
+                : "h-[50vh] flex flex-col "
             }`}
           >
             <div className="sticky top-0 bg-[var(--home-card)] z-10 p-4 border-b flex items-center justify-between">
               <h2 className="text-[15px] font-semibold">
-                Comments ({commentCount})
+                Comments ( {commentCount} )
               </h2>
+              {/* Show close button only when in expanded view (md and up) AND hasPhotos */}
               {hasPhotos && (
-                <DialogClose asChild>
+                <DialogClose asChild className="hidden md:block">
                   <button
                     className="text-muted-foreground hover:text-foreground p-1"
                     aria-label="Close"
@@ -66,7 +67,7 @@ const CommentModal = ({ open, onClose, post }) => {
                 </DialogClose>
               )}
             </div>
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto custom-scrollbar p-2">
               <PostComments post={post} />
             </div>
           </DialogDescription>
