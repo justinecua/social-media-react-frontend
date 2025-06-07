@@ -10,7 +10,7 @@ export function ModeToggle() {
       <Button
         variant="outline"
         size="icon"
-        className="mr-3"
+        className="mr-3 cursor-pointer"
         onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
       >
         {resolvedTheme === "dark" ? (

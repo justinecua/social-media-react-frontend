@@ -50,7 +50,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: #f5f5f5;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -91,10 +91,11 @@
   --input-login: #2f2e2f;
   --button-color-bg: #2442de;
   --button-color-text: #2f2e2f;
+  --text-color-dateTime: #676766;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: #0e0e0f;
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -126,15 +127,16 @@
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 
-  --home-card: #15161a;
+  --home-card: #080808;
   --title-color: #ffffff;
   --color-subtitle: #6e6e6e;
-  --button-bg-color: #1c1e29;
+  --button-bg-color: #101011;
   --button-text-color: #bababa;
   --button-hover-bg-color: #0c0c0f;
   --input-login: #2f2e2f;
   --button-color-bg: #2442de;
   --button-color-text: #ffffff;
+  --text-color-dateTime: #676766;
 }
 
 @layer base {
@@ -178,4 +180,13 @@ body,
 }
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: transparent;
+}
+
+.fade-overlay {
+  background: linear-gradient(
+    to top,
+    var(--home-card) 15%,
+    rgba(0, 0, 0, 0.3) 60%,
+    transparent 100%
+  );
 }

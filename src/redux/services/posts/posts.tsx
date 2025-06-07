@@ -22,7 +22,17 @@ export const receivedApi = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (response) => response,
     }),
+    getPostsByUser: builder.query({
+      query: ({ account_id }) => ({
+        url: `posts/getPostsByUser/${account_id}`,
+        method: "GET",
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
   }),
 });
 
-export const { useGetPostsQuery, useGetCommentsQuery } = receivedApi;
+export const { useGetPostsQuery, useGetCommentsQuery, useGetPostsByUserQuery } =
+  receivedApi;

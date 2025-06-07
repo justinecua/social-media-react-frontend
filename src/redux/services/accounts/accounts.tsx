@@ -13,7 +13,16 @@ export const accounts = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (response) => response,
     }),
+    getProfile: builder.query({
+      query: ({ profile_id }) => ({
+        url: `accounts/profile/${profile_id}`,
+        method: "GET",
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
   }),
 });
 
-export const { useGetNewUsersQuery } = accounts;
+export const { useGetNewUsersQuery, useGetProfileQuery } = accounts;

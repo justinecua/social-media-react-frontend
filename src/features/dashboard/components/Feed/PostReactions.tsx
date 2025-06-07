@@ -13,7 +13,7 @@ import CommentModal from "../modal/CommentModal";
 import { useNavigate } from "react-router-dom";
 import { getStoredUser } from "@/utils/auth";
 
-const PostReactions = ({ item }) => {
+const PostReactions = ({ item, isProfile = false }) => {
   const [glowStates, setGlowStates] = useState({});
   const [commentStates, setCommentStates] = useState({});
   const { resolvedTheme } = useTheme();
@@ -21,6 +21,10 @@ const PostReactions = ({ item }) => {
   const [showAlert, setShowAlert] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const navigate = useNavigate();
+
+  const reactColorBg = isProfile
+    ? "bg-[var(--home-card)]"
+    : "bg-[var(--background)]";
 
   let glowOn = glowOnOriginal;
   let glowOff = glowOffOriginal;
@@ -56,6 +60,7 @@ const PostReactions = ({ item }) => {
         [post_id]: !prev[post_id],
       }));
       console.log("Show comment");
+      setShowComment(true);
     } else {
       setShowComment(true);
       console.log("show comment but not logged in");
@@ -70,13 +75,12 @@ const PostReactions = ({ item }) => {
       <div className="flex gap-2 w-full">
         <button
           onClick={() => toggleGlow(item.id)}
-          className={`flex items-center mt-1 px-3 py-2 rounded-lg transition-transform duration-150 relative overflow-hidden cursor-pointer
+          className={`${reactColorBg} flex items-center mt-1 px-3 py-2 rounded-lg transition-transform duration-150 relative overflow-hidden cursor-pointer
         ${
           isGlowOn
             ? "bg-[#2442de] animate-pulse shadow-[0_2px_13px_#2442de]"
             : "bg-[var(--button-bg-color)]"
-        }
-        `}
+        }`}
         >
           <img
             src={isGlowOn ? glowOn : glowOff}
@@ -98,7 +102,7 @@ const PostReactions = ({ item }) => {
 
         <button
           onClick={toggleComment}
-          className="flex items-center mt-1 px-3 py-2 rounded-lg bg-[var(--button-bg-color)] transition-transform duration-150 cursor-pointer"
+          className={`flex items-center mt-1 px-3 py-2 rounded-lg ${reactColorBg} transition-transform duration-150 cursor-pointer`}
         >
           <img
             src={isCommentOn ? commentOn : commentOff}

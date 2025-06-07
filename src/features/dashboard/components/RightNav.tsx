@@ -14,6 +14,8 @@ const RightNav = () => {
     setImgErrors((prev) => ({ ...prev, [index]: true }));
   };
 
+  console.log(newUsers);
+
   return (
     <Card className="Left bg-[var(--home-card)] w-xs h-full hidden xl:block fixed right-0 rounded-none">
       <CardContent>
@@ -40,13 +42,18 @@ const RightNav = () => {
             {newUsers && newUsers.length > 0 ? (
               <div className="grid grid-cols-5 gap-4">
                 {newUsers.map((user, index) => (
-                  <img
-                    key={index}
-                    src={imgErrors[index] ? NoProfile : user?.profile_photo}
-                    alt={user?.username}
-                    className="w-9 h-9 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform duration-200"
-                    onError={() => setImgError(index)}
-                  />
+                  <Link
+                    to={`/profile/${user?.id}`}
+                    className="flex items-center mr-2"
+                  >
+                    <img
+                      key={index}
+                      src={imgErrors[index] ? NoProfile : user?.profile_photo}
+                      alt={user?.username}
+                      className="w-9 h-9 rounded-full object-cover cursor-pointer hover:scale-110 transition-transform duration-200"
+                      onError={() => setImgError(index)}
+                    />
+                  </Link>
                 ))}
               </div>
             ) : (

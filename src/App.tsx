@@ -6,6 +6,7 @@ import LoginPage from "./features/auth/pages/Login";
 import { ThemeProvider } from "@/components/themes/theme-provider";
 import "./index.css";
 import RegisterPage from "./features/auth/pages/Register";
+import ProfilePage from "./features/profile/pages/profile";
 import { Toaster } from "@/components/ui/sonner";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/cars" element={null} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile/:id" element={<ProfilePage />} />
         </Routes>
         <Toaster position="bottom-right" />
       </RootLayout>

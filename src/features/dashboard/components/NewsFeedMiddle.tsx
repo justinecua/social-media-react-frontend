@@ -72,8 +72,8 @@ const NewsFeedMiddle = () => {
             <CardContent>
               <PostTopNav post={post} />
               <PostCaptions post={post} />
-              <PostPhotos post={post} />
-              <PostReactions item={post} />
+              <PostPhotos post={post} isModal={true} isProfile={false} />
+              <PostReactions item={post} isProfile={false} />
             </CardContent>
           </Card>
         ))}
