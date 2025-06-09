@@ -24,6 +24,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
+    "emoji-picker-react": "^4.12.2",
     "framer-motion": "^12.15.0",
     "lodash.throttle": "^4.1.1",
     "lucide-react": "^0.503.0",

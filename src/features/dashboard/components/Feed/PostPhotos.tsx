@@ -42,7 +42,7 @@ const PostPhotos = ({ post, isModal = false, isProfile = false }) => {
           onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex + 1)}
           className="w-full h-full"
         >
-          {photos.map((photo, index) => (
+          {(Array.isArray(photos) ? photos : []).map((photo, index) => (
             <SwiperSlide
               key={index}
               className="flex justify-center items-center"

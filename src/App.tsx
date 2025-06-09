@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./features/dashboard/pages/Home";
 import About from "./features/dashboard/pages/About";
 import LoginPage from "./features/auth/pages/Login";
+import Explore from "./features/dashboard/pages/Explore";
 import { ThemeProvider } from "@/components/themes/theme-provider";
 import "./index.css";
 import RegisterPage from "./features/auth/pages/Register";
@@ -15,6 +16,7 @@ function App() {
       <RootLayout>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/explore" element={<Explore />} />
           <Route path="/about" element={<About />} />
           <Route path="/cars" element={null} />
           <Route path="/login" element={<LoginPage />} />

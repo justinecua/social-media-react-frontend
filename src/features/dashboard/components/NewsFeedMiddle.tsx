@@ -7,6 +7,7 @@ import PostTopNav from "./Feed/PostTopNav";
 import PostCaptions from "./Feed/PostCaptions";
 import SkeletonPost from "./Skeleton/skeletonPosts";
 import InfiniteScroll from "react-infinite-scroll-component";
+import FloatingActions from "./Feed/FloatingActions";
 
 const LIMIT = 5;
 
@@ -14,6 +15,8 @@ const NewsFeedMiddle = () => {
   const [offset, setOffset] = useState(0);
   const [allPosts, setAllPosts] = useState([]);
   const { data, isFetching } = useGetPostsQuery({ offset, limit: LIMIT });
+
+  console.log(data);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -67,8 +70,8 @@ const NewsFeedMiddle = () => {
         loader={<>{renderSkeletons()}</>}
         scrollThreshold={0.9}
       >
-        {allPosts.map((post) => (
-          <Card key={post.id} className="bg-[var(--home-card)] mb-3">
+        {allPosts.map((post, index) => (
+          <Card key={index} className="bg-[var(--home-card)] mb-3">
             <CardContent>
               <PostTopNav post={post} />
               <PostCaptions post={post} />
@@ -78,6 +81,8 @@ const NewsFeedMiddle = () => {
           </Card>
         ))}
       </InfiniteScroll>
+
+      <FloatingActions />
     </div>
   );
 };

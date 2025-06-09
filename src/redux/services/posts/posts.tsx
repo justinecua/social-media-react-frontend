@@ -31,8 +31,21 @@ export const receivedApi = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (response) => response,
     }),
+    getTotalGlowsPostByUser: builder.query({
+      query: ({ account_id }) => ({
+        url: `/accounts/getTotalGlowsByUser/${account_id}`,
+        method: "GET",
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
   }),
 });
 
-export const { useGetPostsQuery, useGetCommentsQuery, useGetPostsByUserQuery } =
-  receivedApi;
+export const {
+  useGetPostsQuery,
+  useGetCommentsQuery,
+  useGetPostsByUserQuery,
+  useGetTotalGlowsPostByUserQuery,
+} = receivedApi;

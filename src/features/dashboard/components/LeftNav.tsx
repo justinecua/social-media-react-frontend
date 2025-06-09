@@ -27,13 +27,20 @@ const LeftNav = () => {
                 <span className="text-sm">Home</span>
               </div>
             </Link>
-            <div className=" flex w-full items-center w-full p-2 rounded-md  hover:bg-[var(--button-hover-bg-color)] hover:text-[var(--button-text-color)] dark:hover:text-white cursor-pointer">
+
+            <div className=" flex w-full items-center w-full p-2 rounded-md   hover:text-[var(--button-text-color)] dark:hover:text-white ">
               {" "}
-              <Button variant="outline" size="icon" className="mr-3">
-                <Telescope className="h-[1.2rem] w-[1.2rem]" />
-              </Button>
-              <span className="text-sm">Explore</span>
             </div>
+
+            {/* <Link to="/explore">
+              <div className=" flex w-full items-center w-full p-2 rounded-md  hover:bg-[var(--button-hover-bg-color)] hover:text-[var(--button-text-color)] dark:hover:text-white cursor-pointer">
+                {" "}
+                <Button variant="outline" size="icon" className="mr-3">
+                  <Telescope className="h-[1.2rem] w-[1.2rem]" />
+                </Button>
+                <span className="text-sm">Explore</span>
+              </div>
+            </Link> */}
           </div>
         </CardContent>
         <div className="pl-8">

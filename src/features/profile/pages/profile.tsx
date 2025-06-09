@@ -1,12 +1,12 @@
 import { useGetProfileQuery } from "@/redux/services/accounts/accounts";
 import { useParams } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
-
-import ExpandableText from "@/components/ui/custom/expandable";
 import { useGetPostsByUserQuery } from "@/redux/services/posts/posts";
 import ProfileTabs from "../components/ProfileTabs";
 import ProfileName from "../components/ProfileName";
 import ProfileCover from "../components/ProfileCover";
+import SkeletonProfile from "@/features/dashboard/components/Skeleton/skeletonProfile";
+import ProfileBio from "../components/ProfileBio";
 
 const ProfilePage = () => {
   const { id } = useParams();
@@ -26,15 +26,19 @@ const ProfilePage = () => {
   const posts = userPosts?.results ?? [];
   const allPhotos = posts.flatMap((post) => post.photos || []);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+      <div className="p-4 w-full flex flex-col items-center h-full">
+        <SkeletonProfile />
+      </div>
+    );
+  }
+
   if (error) return <p>Something went wrong</p>;
   if (!Array.isArray(profile)) return <p>No profile data found</p>;
 
-  const bio =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum";
-
   return (
-    <div className="p-4 w-full flex flex-col items-center h-auto ">
+    <div className="p-4 w-full flex flex-col items-center min-h-screen">
       {profile.map((item) => (
         <Card
           key={item.id}
@@ -47,9 +51,7 @@ const ProfilePage = () => {
           <ProfileName item={item} />
 
           {/* Bio Info*/}
-          <div className="mt-1 ml-8 w-[55%]">
-            <ExpandableText text={bio} />
-          </div>
+          <ProfileBio item={item} id={id} />
 
           {/* Tabs Info*/}
           <ProfileTabs item={item} posts={posts} allPhotos={allPhotos} />

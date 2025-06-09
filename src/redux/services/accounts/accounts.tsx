@@ -22,7 +22,20 @@ export const accounts = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (response) => response,
     }),
+    getTotalFriends: builder.query({
+      query: ({ account_id }) => ({
+        url: `/friends/getTotalFriends/${account_id}`,
+        method: "GET",
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
   }),
 });
 
-export const { useGetNewUsersQuery, useGetProfileQuery } = accounts;
+export const {
+  useGetNewUsersQuery,
+  useGetProfileQuery,
+  useGetTotalFriendsQuery,
+} = accounts;
