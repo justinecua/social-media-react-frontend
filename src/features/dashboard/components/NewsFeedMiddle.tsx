@@ -8,15 +8,52 @@ import PostCaptions from "./Feed/PostCaptions";
 import SkeletonPost from "./Skeleton/skeletonPosts";
 import InfiniteScroll from "react-infinite-scroll-component";
 import FloatingActions from "./Feed/FloatingActions";
+import PhotoDialog from "./modal/PhotoDialog";
+import { getStoredUser } from "@/utils/auth";
 
-const LIMIT = 5;
+const LIMIT = 7;
 
 const NewsFeedMiddle = () => {
   const [offset, setOffset] = useState(0);
   const [allPosts, setAllPosts] = useState([]);
-  const { data, isFetching } = useGetPostsQuery({ offset, limit: LIMIT });
+  const { data, isFetching, refetch } = useGetPostsQuery({
+    offset,
+    limit: LIMIT,
+  });
 
-  console.log(data);
+  const user = getStoredUser();
+
+  //Map the object data and results
+  const glowers = data?.results?.map((glower) => glower?.glowers);
+
+  // console.log(user);
+  // console.log(data);
+  console.log("Glowers", glowers);
+  // console.log(typeof glowers);
+
+  //Algo for Liking a post
+  //case: Each post has an array of users who likes it
+  //1. Get the account_id of the user from the localStorage
+  //2. Check if that account_id exists on each array
+  //3. Boolean True or False
+
+  const accId = user?.user?.account_id;
+
+  glowers?.forEach((glowerArr) => {
+    if (glowerArr.includes(accId)) {
+      console.log(true);
+    }
+  });
+
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handlePhotoClick = (post, index) => {
+    setSelectedPhotoIndex(index);
+    setSelectedPost(post);
+    setDialogOpen(true);
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -38,6 +75,14 @@ const NewsFeedMiddle = () => {
       });
     }
   }, [data]); // This will run again only when 'data' changes
+
+  const refetchPosts = (newPost) => {
+    if (newPost) {
+      setAllPosts((prev) => [newPost, ...prev]);
+    } else {
+      refetch();
+    }
+  };
 
   const fetchMorePosts = () => {
     if (!isFetching) {
@@ -63,6 +108,13 @@ const NewsFeedMiddle = () => {
 
   return (
     <div className="Middle ft w-full max-w-xl h-full">
+      <PhotoDialog
+        isOpen={isDialogOpen}
+        setIsOpen={setDialogOpen}
+        photos={selectedPost?.photos || []}
+        selectedIndex={selectedPhotoIndex}
+      />
+
       <InfiniteScroll
         dataLength={allPosts.length}
         next={fetchMorePosts}
@@ -75,14 +127,18 @@ const NewsFeedMiddle = () => {
             <CardContent>
               <PostTopNav post={post} />
               <PostCaptions post={post} />
-              <PostPhotos post={post} isModal={true} isProfile={false} />
+              <PostPhotos
+                post={post}
+                onPhotoClick={(index) => handlePhotoClick(post, index)}
+              />
+
               <PostReactions item={post} isProfile={false} />
             </CardContent>
           </Card>
         ))}
       </InfiniteScroll>
 
-      <FloatingActions />
+      <FloatingActions refetchPosts={refetchPosts} />
     </div>
   );
 };

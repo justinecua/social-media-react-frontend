@@ -37,7 +37,7 @@ const ProfileCover = ({ item }) => {
         {/* <div className="absolute bottom-0 left-0 w-full h-30 fade-overlay" /> */}
       </div>
 
-      <div className="border-8 border-solid border-[var(--home-card)] absolute -bottom-[5.55rem] left-6 w-30 h-30 sm:w-38 sm:h-38 rounded-full overflow-hidden">
+      <div className="border-8 border-solid border-[var(--home-card)] absolute -bottom-[5.8rem] lg:left-6 w-30 h-30 md:w-40 md:h-40 sm:w-38 sm:h-38 rounded-full overflow-hidden">
         <img
           src={imgError ? NoProfile : item?.profile_photo}
           alt="profile"

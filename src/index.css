@@ -92,6 +92,7 @@
   --button-color-bg: #2442de;
   --button-color-text: #2f2e2f;
   --text-color-dateTime: #676766;
+  --photo-bg: #f1f1f1;
 }
 
 .dark {
@@ -137,6 +138,7 @@
   --button-color-bg: #2442de;
   --button-color-text: #ffffff;
   --text-color-dateTime: #676766;
+  --photo-bg: #181818;
 }
 
 @layer base {

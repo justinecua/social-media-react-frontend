@@ -14,8 +14,8 @@ const ProfileBio = ({ item, id }) => {
   console.log(totalGlows);
 
   return (
-    <div className="flex justify-between">
-      <div className="mt-1 ml-8 w-[55%]">
+    <div className="flex items-center justify-between">
+      <div className="ml-8 w-[55%]">
         {item?.bio && item?.bio !== "None" ? (
           <div className="text-[var(--color-text)] whitespace-pre-line">
             <ExpandableText text={item?.bio} />

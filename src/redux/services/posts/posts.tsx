@@ -40,6 +40,46 @@ export const receivedApi = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (response) => response,
     }),
+    createPost: builder.mutation({
+      query: (body) => ({
+        url: `/posts/createPost/`,
+        method: "POST",
+        body: body,
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    sendGlow: builder.mutation({
+      query: (body) => ({
+        url: `/posts/sendGlow/`,
+        method: "POST",
+        body: body,
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    sendunGlow: builder.mutation({
+      query: (body) => ({
+        url: `/posts/sendUnglow/`,
+        method: "POST",
+        body: body,
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    addComment: builder.mutation({
+      query: (body) => ({
+        url: `/interactions/addComment/`,
+        method: "POST",
+        body: body,
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
   }),
 });
 
@@ -48,4 +88,8 @@ export const {
   useGetCommentsQuery,
   useGetPostsByUserQuery,
   useGetTotalGlowsPostByUserQuery,
+  useCreatePostMutation,
+  useSendGlowMutation,
+  useSendunGlowMutation,
+  useAddCommentMutation,
 } = receivedApi;

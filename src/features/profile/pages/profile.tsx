@@ -25,6 +25,7 @@ const ProfilePage = () => {
 
   const posts = userPosts?.results ?? [];
   const allPhotos = posts.flatMap((post) => post.photos || []);
+  // Get all photos from all posts into one flat array, skipping posts with no photos (Flat array means a simple list with no nested arrays)
 
   if (isLoading) {
     return (
@@ -38,11 +39,11 @@ const ProfilePage = () => {
   if (!Array.isArray(profile)) return <p>No profile data found</p>;
 
   return (
-    <div className="p-4 w-full flex flex-col items-center min-h-screen">
+    <div className=" w-full flex flex-col items-center min-h-screen">
       {profile.map((item) => (
         <Card
           key={item.id}
-          className="w-full h-full sm:w-[95%] p-6 md:w-[85%] lg:w-[75%] bg-[var(--home-card)] shadow-md rounded-xl"
+          className="w-full h-full sm:w-[95%] p-4 md:w-[85%] lg:w-[75%] bg-[var(--home-card)] shadow-md rounded-xl"
         >
           {/* Cover Page */}
           <ProfileCover item={item} />

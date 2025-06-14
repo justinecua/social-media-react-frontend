@@ -9,6 +9,8 @@ import "./index.css";
 import RegisterPage from "./features/auth/pages/Register";
 import ProfilePage from "./features/profile/pages/profile";
 import { Toaster } from "@/components/ui/sonner";
+import ForgotPassword from "./features/auth/pages/ForgotPassword";
+import ResetPassword from "./features/auth/pages/ResetPassword";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path="/cars" element={null} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/profile/:id" element={<ProfilePage />} />
         </Routes>
         <Toaster position="bottom-right" />

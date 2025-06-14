@@ -30,8 +30,23 @@ const RightNav = () => {
   const isAuthenticated = () => {
     return (
       <Card className="Left bg-[var(--home-card)] w-xs h-full hidden xl:block fixed right-0 rounded-none">
-        <CardContent>
-          <div>Login</div>
+        <CardContent className="flex flex-col justify-between h-full">
+          <Link to={`/profile/${user?.user?.account_id}`}>
+            <Button
+              variant="outline"
+              className="h-14 justify-start gap-2 px-4 py-2 w-full cursor-pointer"
+            >
+              <img
+                src={user?.user?.profile_photo}
+                alt=""
+                className="w-9 h-9 rounded-full"
+              />
+              <span className="text-sm ml-1">
+                Hello, {user?.user?.firstname} {user?.user?.lastname}!
+              </span>
+            </Button>
+          </Link>
+          <div className=""></div>
         </CardContent>
       </Card>
     );

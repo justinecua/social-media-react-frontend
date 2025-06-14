@@ -49,9 +49,11 @@ const LoginPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen flex-col h-full w-full relative">
       <Card className="w-full max-w-sm bg-[var(--home-card)]">
-        <div className="relative flex items-center justify-center -mb-5">
-          <img src={glow} className="w-16 h-16" alt="" />
-        </div>
+        <Link to="/" className="w-full">
+          <div className="relative flex items-center justify-center -mb-5">
+            <img src={glow} className="w-16 h-16" alt="" />
+          </div>
+        </Link>
         <CardHeader className="text-center">
           <CardTitle className="text-xl text-[var(--title-color)]">
             Welcome Back!
@@ -62,7 +64,12 @@ const LoginPage = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin();
+            }}
+          >
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Input
@@ -85,32 +92,30 @@ const LoginPage = () => {
                 />
               </div>
             </div>
+
+            {/* Move button here */}
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-[var(--button-color-bg)] text-white p-5 mt-3 hover:bg-[var(--button-hover-bg-color)] hover:text-[var(--button-text-color)] dark:hover:text-white cursor-pointer"
+            >
+              Login
+            </Button>
+            <Link to="/register" className="w-full">
+              <Button
+                variant="outline"
+                className="mt-3 w-full p-5 bg-[var(--button-hover-bg-color)] cursor-pointer"
+              >
+                Create Account
+              </Button>
+            </Link>
           </form>
         </CardContent>
 
-        <CardFooter className="flex-col gap-2">
-          <Button
-            type="submit"
-            onClick={handleLogin}
-            disabled={isLoading}
-            className="w-full bg-[var(--button-color-bg)] text-white p-4 -mt-3 hover:bg-[var(--button-hover-bg-color)] hover:text-[var(--button-text-color)] dark:hover:text-white cursor-pointer"
-          >
-            Login
-          </Button>
-          <Link to="/register" className="w-full">
-            <Button
-              variant="outline"
-              className="w-full p-4 bg-[var(--button-hover-bg-color)] cursor-pointer"
-            >
-              Create Account
-            </Button>
-          </Link>
-        </CardFooter>
-
         <div className="w-full flex justify-center px-6 -mt-1">
-          <a href="#" className="text-sm hover:underline">
-            Forgot your password?
-          </a>
+          <Link to="/forgotpassword" className="text-center w-full">
+            <span className="w-full text-sm"> Forgot your password?</span>
+          </Link>
         </div>
       </Card>
 

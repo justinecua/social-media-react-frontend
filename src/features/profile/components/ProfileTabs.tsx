@@ -14,6 +14,7 @@ import PostReactions from "@/features/dashboard/components/Feed/PostReactions";
 import PostPhotos from "@/features/dashboard/components/Feed/PostPhotos";
 import { BookOpen, FileText, Image, MessageSquare, User } from "lucide-react";
 import { Key, Edit3 } from "lucide-react";
+import PhotoDialog from "@/features/dashboard/components/modal/PhotoDialog";
 
 const ProfileTabs = ({ item, posts, allPhotos }) => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -30,16 +31,17 @@ const ProfileTabs = ({ item, posts, allPhotos }) => {
     (post) => !post.photos || post.photos.length === 0
   );
 
-  const openGallery = (index) => {
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handlePhotoClick = (post, index) => {
     setSelectedPhotoIndex(index);
+    setSelectedPost(post);
     setDialogOpen(true);
   };
 
-  console.log(item);
-
-  // Empty state component
+  // Empty component
   const EmptyState = ({ icon, title, description }) => (
-    <div className="flex flex-col items-center justify-center py-12 text-center h-full">
+    <div className="flex flex-col items-center justify-center text-center ">
       <div className="p-4 mb-4 rounded-full bg-[var(--button-bg-color)] text-[var(--accent-color)]">
         {icon}
       </div>
@@ -108,37 +110,43 @@ const ProfileTabs = ({ item, posts, allPhotos }) => {
         </TabsList>
 
         {/* Posts Content*/}
-        <TabsContent value="posts">
-          <div className="  ">
-            {posts.length > 0 ? (
-              <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 mt-5">
-                {posts.map((post) => (
-                  <div key={post.id} className="break-inside-avoid mb-4">
-                    <Card className="bg-[var(--background)]">
-                      <CardContent>
-                        <PostTopNav post={post} />
-                        <PostCaptions post={post} />
-                        <PostPhotos
-                          post={post}
-                          isModal={true}
-                          isProfile={true}
-                        />
-                        <PostReactions item={post} isProfile={true} />
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="h-100">
-                <EmptyState
-                  icon={<FileText size={24} />}
-                  title="No posts yet"
-                  description={`When ${item?.username} shares something, it will appear here`}
-                />
-              </div>
-            )}
-          </div>
+        <TabsContent value="posts" className="mt-1">
+          {posts.length > 0 ? (
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 mt-5">
+              {posts.map((post) => (
+                <div key={post.id} className="break-inside-avoid mb-4">
+                  <Card className="bg-[var(--background)]">
+                    <CardContent>
+                      <PostTopNav post={post} />
+                      <PostCaptions post={post} />
+                      <PostPhotos
+                        post={post}
+                        isModal={false}
+                        isProfile={true}
+                        onPhotoClick={(index) => handlePhotoClick(post, index)}
+                      />
+                      <PostReactions item={post} isProfile={true} />
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="h-120 flex items-center justify-center">
+              <EmptyState
+                icon={<FileText size={24} />}
+                title="No posts yet"
+                description={`When ${item?.username} shares something, it will appear here`}
+              />
+            </div>
+          )}
+
+          <PhotoDialog
+            isOpen={isDialogOpen}
+            setIsOpen={setDialogOpen}
+            photos={selectedPost?.photos || []}
+            selectedIndex={selectedPhotoIndex}
+          />
         </TabsContent>
 
         {/* Photos Content*/}
@@ -147,18 +155,21 @@ const ProfileTabs = ({ item, posts, allPhotos }) => {
             {allPhotos.length > 0 ? (
               <div className="justify-center grid xl:grid-cols-6 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
                 {allPhotos.map((photo, index) => (
-                  <div key={index} onClick={() => openGallery(index)}>
+                  <div
+                    key={index}
+                    onClick={() => handlePhotoClick(null, index)}
+                  >
                     <img
                       src={photo}
                       alt=""
-                      onClick={() => openGallery(index)}
+                      onClick={(photo) => handlePhotoClick(photo, index)}
                       className="cursor-pointer w-full h-50 object-cover rounded-md hover:brightness-55 transition"
                     />
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="h-100">
+              <div className="h-120 flex justify-center">
                 <EmptyState
                   icon={<Image size={24} />}
                   title="No photos yet"
@@ -168,54 +179,44 @@ const ProfileTabs = ({ item, posts, allPhotos }) => {
             )}
           </div>
 
-          <Dialog open={isDialogOpen} onOpenChange={setDialogOpen}>
-            <DialogPortal>
-              <DialogOverlay className="w-full h-full bg-black/70" />
-              <DialogTitle></DialogTitle>
-              <DialogContent
-                onOpenAutoFocus={(e) => e.preventDefault()}
-                className="min-w-[90%] h-[90%] flex items-center justify-center p-0 bg-transparent"
-              >
-                <div className="w-full h-full flex items-center justify-center">
-                  <img
-                    src={allPhotos[selectedPhotoIndex]}
-                    alt=""
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-              </DialogContent>
-            </DialogPortal>
-          </Dialog>
+          <PhotoDialog
+            isOpen={isDialogOpen}
+            setIsOpen={setDialogOpen}
+            photos={allPhotos}
+            selectedIndex={selectedPhotoIndex}
+          />
         </TabsContent>
 
         {/* Thoughts Content*/}
-        <TabsContent value="thoughts">
-          <div className="mt-5">
-            {thoughts.length > 0 ? (
-              <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 mt-5">
-                {thoughts.map((thought, index) => (
-                  <div key={index} className="break-inside-avoid mb-4">
-                    <Card className="bg-[var(--background)] ">
-                      <CardContent>
-                        <PostTopNav post={thought} />
-                        <PostCaptions post={thought} />
-                        <PostPhotos post={thought} isModal={true} />
-                        <PostReactions item={thought} isProfile={true} />
-                      </CardContent>
-                    </Card>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="h-100">
-                <EmptyState
-                  icon={<MessageSquare size={24} />}
-                  title="No thoughts yet"
-                  description={`Ideas and reflections shared by ${item?.username} will appear here`}
-                />
-              </div>
-            )}
-          </div>
+        <TabsContent value="thoughts" className="mt-1">
+          {thoughts.length > 0 ? (
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4 mt-5">
+              {thoughts.map((thought, index) => (
+                <div key={index} className="break-inside-avoid mb-4">
+                  <Card className="bg-[var(--background)] ">
+                    <CardContent>
+                      <PostTopNav post={thought} />
+                      <PostCaptions post={thought} />
+                      <PostPhotos
+                        post={thought}
+                        isModal={false}
+                        isProfile={true}
+                      />
+                      <PostReactions item={thought} isProfile={false} />
+                    </CardContent>
+                  </Card>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col justify-center items-center h-120">
+              <EmptyState
+                icon={<MessageSquare size={24} />}
+                title="No thoughts yet"
+                description={`Ideas and reflections shared by ${item?.username} will appear here`}
+              />
+            </div>
+          )}
         </TabsContent>
 
         {/* About Content */}
