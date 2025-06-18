@@ -24,7 +24,7 @@ const PhotoDialog = ({ isOpen, setIsOpen, photos = [], selectedIndex = 0 }) => {
           onOpenAutoFocus={(e) => e.preventDefault()}
           className=" border-0 min-w-[70%] h-[90%] flex items-center justify-center p-0 bg-transparent"
         >
-          <DialogClose className="absolute z-10 top-4 right-0 text-white cursor-pointer p-3 rounded-full bg-[var(--button-bg-color)] hover:bg-[var(--button-hover-bg-color)]">
+          <DialogClose className="absolute z-10 top-4 right-0 cursor-pointer p-3 rounded-full bg-[var(--button-bg-color)] hover:bg-[var(--button-hover-bg-color)]">
             <X className="w-5 h-5" />
           </DialogClose>
           <Carousel opts={{ startIndex: selectedIndex }} className="w-full">

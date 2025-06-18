@@ -7,6 +7,7 @@ import ProfileName from "../components/ProfileName";
 import ProfileCover from "../components/ProfileCover";
 import SkeletonProfile from "@/features/dashboard/components/Skeleton/skeletonProfile";
 import ProfileBio from "../components/ProfileBio";
+import { use, useEffect } from "react";
 
 const ProfilePage = () => {
   const { id } = useParams();
@@ -26,6 +27,10 @@ const ProfilePage = () => {
   const posts = userPosts?.results ?? [];
   const allPhotos = posts.flatMap((post) => post.photos || []);
   // Get all photos from all posts into one flat array, skipping posts with no photos (Flat array means a simple list with no nested arrays)
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, []);
 
   if (isLoading) {
     return (
@@ -49,7 +54,7 @@ const ProfilePage = () => {
           <ProfileCover item={item} />
 
           {/* Name Info */}
-          <ProfileName item={item} />
+          <ProfileName item={item} id={id} />
 
           {/* Bio Info*/}
           <ProfileBio item={item} id={id} />

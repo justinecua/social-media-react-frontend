@@ -1,10 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import NoProfile from "@/assets/images/No-Profile.jpg";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Car } from "lucide-react";
 import { ModeToggle } from "@/components/themes/mode-toggle";
 import { Button } from "@/components/ui/button";
+import { getStoredUser } from "@/utils/auth";
 
 const ProfileCover = ({ item }) => {
   const [imgError, setImgError] = useState(false);
@@ -23,11 +24,11 @@ const ProfileCover = ({ item }) => {
       </div>
 
       <div className="relative w-full h-42 sm:h-44 md:h-50 lg:h-60 xl:h-70 rounded-lg overflow-hidden">
-        {coverError ? (
+        {!item?.cover_photo || coverError ? (
           <div className="w-full h-full bg-[var(--button-bg-color)]"></div>
         ) : (
           <img
-            src={item?.cover_photo}
+            src={item.cover_photo}
             alt="cover"
             className="w-full h-full object-cover"
             onError={() => setCoverError(true)}

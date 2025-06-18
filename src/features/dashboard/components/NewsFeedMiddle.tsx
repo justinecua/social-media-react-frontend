@@ -21,30 +21,6 @@ const NewsFeedMiddle = () => {
     limit: LIMIT,
   });
 
-  const user = getStoredUser();
-
-  //Map the object data and results
-  const glowers = data?.results?.map((glower) => glower?.glowers);
-
-  // console.log(user);
-  // console.log(data);
-  console.log("Glowers", glowers);
-  // console.log(typeof glowers);
-
-  //Algo for Liking a post
-  //case: Each post has an array of users who likes it
-  //1. Get the account_id of the user from the localStorage
-  //2. Check if that account_id exists on each array
-  //3. Boolean True or False
-
-  const accId = user?.user?.account_id;
-
-  glowers?.forEach((glowerArr) => {
-    if (glowerArr.includes(accId)) {
-      console.log(true);
-    }
-  });
-
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
   const [selectedPost, setSelectedPost] = useState(null);

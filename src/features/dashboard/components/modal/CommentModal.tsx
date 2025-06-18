@@ -236,10 +236,26 @@ const CommentModal = ({ open, onClose, post }) => {
             <DialogDescription
               className={`transition-all duration-300 ease-in-out ${
                 hasPhotos
-                  ? "md:border-l w-full lg:w-1/2 flex flex-col overflow-y-auto custom-scrollbar"
-                  : "h-[50vh] flex flex-col"
+                  ? "md:border-l w-full lg:w-1/2 flex flex-col overflow-y-auto max-h-[40vh] lg:max-h-[80vh] md:max-h-[40vh] sm:max-h-[40vh]  custom-scrollbar"
+                  : "h-full flex flex-col overflow-y-auto max-h-[40vh] lg:max-h-[80vh] md:max-h-[40vh] sm:max-h-[40vh]  custom-scrollbar"
               }`}
             >
+              <div className="sticky top-0 bg-[var(--home-card)] z-1 p-4 border-b flex items-center justify-between">
+                <h2 className="text-[15px] font-semibold z-1">
+                  Comments ( {localCommentCount} )
+                </h2>
+                {/* Show close button only when in expanded view (md and up) AND hasPhotos */}
+                {hasPhotos && (
+                  <DialogClose asChild className="hidden lg:block">
+                    <button
+                      className="text-muted-foreground hover:text-foreground p-1"
+                      aria-label="Close"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </DialogClose>
+                )}
+              </div>
               <div className="flex-1 overflow-y-auto custom-scrollbar p-2">
                 <PostComments post={post} refetchKey={refetchKey} />
               </div>

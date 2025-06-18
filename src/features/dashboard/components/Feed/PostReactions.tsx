@@ -55,10 +55,9 @@ const PostReactions = ({ item, isProfile = false }) => {
   //case: Each post has an array of users who glows it
   //1. Get the account_id of the user from the localStorage
   //2. To check if the user glowed a post:
-  // Check if that account_id exists on the glowers array in each post
-  //3.
+  //Check if that account_id exists on the glowers array in each post
 
-  //Note: ?? means if the value on the left is null or undefined , use the value on the right
+  //Note: ?? means if the value on the left is null or undefined , use the value on the right -> Commented on June 10, 2025
 
   //sample:
   // item?.glowers?.forEach((glowerId) => {

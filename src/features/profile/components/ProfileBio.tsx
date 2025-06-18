@@ -11,8 +11,6 @@ const ProfileBio = ({ item, id }) => {
     account_id: id,
   });
 
-  console.log(totalGlows);
-
   return (
     <div className="flex items-center justify-between">
       <div className="ml-8 w-[55%]">

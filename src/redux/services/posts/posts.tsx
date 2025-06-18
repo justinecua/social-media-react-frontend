@@ -80,6 +80,15 @@ export const receivedApi = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (response) => response,
     }),
+    checkUserFriendRequest: builder.query({
+      query: ({ friend_id, accId }) => ({
+        url: `/friends/checkUserFriendRequest/${friend_id}/${accId}/`,
+        method: "GET",
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
   }),
 });
 
@@ -92,4 +101,5 @@ export const {
   useSendGlowMutation,
   useSendunGlowMutation,
   useAddCommentMutation,
+  useCheckUserFriendRequestQuery,
 } = receivedApi;
