@@ -31,8 +31,75 @@ export const receivedApi = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (response) => response,
     }),
+    getTotalGlowsPostByUser: builder.query({
+      query: ({ account_id }) => ({
+        url: `/accounts/getTotalGlowsByUser/${account_id}`,
+        method: "GET",
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    createPost: builder.mutation({
+      query: (body) => ({
+        url: `/posts/createPost/`,
+        method: "POST",
+        body: body,
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    sendGlow: builder.mutation({
+      query: (body) => ({
+        url: `/posts/sendGlow/`,
+        method: "POST",
+        body: body,
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    sendunGlow: builder.mutation({
+      query: (body) => ({
+        url: `/posts/sendUnglow/`,
+        method: "POST",
+        body: body,
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    addComment: builder.mutation({
+      query: (body) => ({
+        url: `/interactions/addComment/`,
+        method: "POST",
+        body: body,
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    checkUserFriendRequest: builder.query({
+      query: ({ friend_id, accId }) => ({
+        url: `/friends/checkUserFriendRequest/${friend_id}/${accId}/`,
+        method: "GET",
+        timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
   }),
 });
 
-export const { useGetPostsQuery, useGetCommentsQuery, useGetPostsByUserQuery } =
-  receivedApi;
+export const {
+  useGetPostsQuery,
+  useGetCommentsQuery,
+  useGetPostsByUserQuery,
+  useGetTotalGlowsPostByUserQuery,
+  useCreatePostMutation,
+  useSendGlowMutation,
+  useSendunGlowMutation,
+  useAddCommentMutation,
+  useCheckUserFriendRequestQuery,
+} = receivedApi;

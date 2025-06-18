@@ -17,9 +17,11 @@ const RegisterPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen flex-col h-full w-full relative">
       <Card className="w-full max-w-sm bg-[var(--home-card)]">
-        <div className="relative flex items-center justify-center -mb-5">
-          <img src={glow} className="w-16 h-16" alt="" />
-        </div>
+        <Link to="/" className="w-full">
+          <div className="relative flex items-center justify-center -mb-5">
+            <img src={glow} className="w-16 h-16" alt="" />
+          </div>
+        </Link>
         <CardHeader className="text-center">
           <CardTitle className="text-xl text-[var(--title-color)]">
             Create Account

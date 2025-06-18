@@ -6,10 +6,19 @@ const baseQuery = fetchBaseQuery({
   baseUrl: `${API_HOST}/api/`,
   credentials: "same-origin",
   prepareHeaders: (headers) => {
-    const accessToken = localStorage.getItem("accessToken");
+    const user = localStorage.getItem("user");
 
-    if (accessToken) {
-      headers.set("Authorization", `Bearer ${accessToken}`);
+    if (user) {
+      try {
+        const userObject = JSON.parse(user);
+        const accessToken = userObject.tokens?.access;
+
+        if (accessToken) {
+          headers.set("Authorization", `Bearer ${accessToken}`);
+        }
+      } catch (err) {
+        console.error("Error parsing user from localStorage", err);
+      }
     }
 
     headers.set("Content-Type", "application/json");

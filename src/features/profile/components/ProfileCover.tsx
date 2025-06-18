@@ -1,10 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import NoProfile from "@/assets/images/No-Profile.jpg";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Car } from "lucide-react";
 import { ModeToggle } from "@/components/themes/mode-toggle";
 import { Button } from "@/components/ui/button";
+import { getStoredUser } from "@/utils/auth";
 
 const ProfileCover = ({ item }) => {
   const [imgError, setImgError] = useState(false);
@@ -23,11 +24,11 @@ const ProfileCover = ({ item }) => {
       </div>
 
       <div className="relative w-full h-42 sm:h-44 md:h-50 lg:h-60 xl:h-70 rounded-lg overflow-hidden">
-        {coverError ? (
+        {!item?.cover_photo || coverError ? (
           <div className="w-full h-full bg-[var(--button-bg-color)]"></div>
         ) : (
           <img
-            src={item?.cover_photo}
+            src={item.cover_photo}
             alt="cover"
             className="w-full h-full object-cover"
             onError={() => setCoverError(true)}
@@ -37,7 +38,7 @@ const ProfileCover = ({ item }) => {
         {/* <div className="absolute bottom-0 left-0 w-full h-30 fade-overlay" /> */}
       </div>
 
-      <div className="border-8 border-solid border-[var(--home-card)] absolute -bottom-[5.55rem] left-6 w-30 h-30 sm:w-38 sm:h-38 rounded-full overflow-hidden">
+      <div className="border-8 border-solid border-[var(--home-card)] absolute -bottom-[5.8rem] lg:left-6 w-30 h-30 md:w-40 md:h-40 sm:w-38 sm:h-38 rounded-full overflow-hidden">
         <img
           src={imgError ? NoProfile : item?.profile_photo}
           alt="profile"

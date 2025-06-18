@@ -7,13 +7,29 @@ import PostTopNav from "./Feed/PostTopNav";
 import PostCaptions from "./Feed/PostCaptions";
 import SkeletonPost from "./Skeleton/skeletonPosts";
 import InfiniteScroll from "react-infinite-scroll-component";
+import FloatingActions from "./Feed/FloatingActions";
+import PhotoDialog from "./modal/PhotoDialog";
+import { getStoredUser } from "@/utils/auth";
 
-const LIMIT = 5;
+const LIMIT = 7;
 
 const NewsFeedMiddle = () => {
   const [offset, setOffset] = useState(0);
   const [allPosts, setAllPosts] = useState([]);
-  const { data, isFetching } = useGetPostsQuery({ offset, limit: LIMIT });
+  const { data, isFetching, refetch } = useGetPostsQuery({
+    offset,
+    limit: LIMIT,
+  });
+
+  const [isDialogOpen, setDialogOpen] = useState(false);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+  const [selectedPost, setSelectedPost] = useState(null);
+
+  const handlePhotoClick = (post, index) => {
+    setSelectedPhotoIndex(index);
+    setSelectedPost(post);
+    setDialogOpen(true);
+  };
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -35,6 +51,14 @@ const NewsFeedMiddle = () => {
       });
     }
   }, [data]); // This will run again only when 'data' changes
+
+  const refetchPosts = (newPost) => {
+    if (newPost) {
+      setAllPosts((prev) => [newPost, ...prev]);
+    } else {
+      refetch();
+    }
+  };
 
   const fetchMorePosts = () => {
     if (!isFetching) {
@@ -60,6 +84,13 @@ const NewsFeedMiddle = () => {
 
   return (
     <div className="Middle ft w-full max-w-xl h-full">
+      <PhotoDialog
+        isOpen={isDialogOpen}
+        setIsOpen={setDialogOpen}
+        photos={selectedPost?.photos || []}
+        selectedIndex={selectedPhotoIndex}
+      />
+
       <InfiniteScroll
         dataLength={allPosts.length}
         next={fetchMorePosts}
@@ -67,17 +98,23 @@ const NewsFeedMiddle = () => {
         loader={<>{renderSkeletons()}</>}
         scrollThreshold={0.9}
       >
-        {allPosts.map((post) => (
-          <Card key={post.id} className="bg-[var(--home-card)] mb-3">
+        {allPosts.map((post, index) => (
+          <Card key={index} className="bg-[var(--home-card)] mb-3">
             <CardContent>
               <PostTopNav post={post} />
               <PostCaptions post={post} />
-              <PostPhotos post={post} isModal={true} isProfile={false} />
+              <PostPhotos
+                post={post}
+                onPhotoClick={(index) => handlePhotoClick(post, index)}
+              />
+
               <PostReactions item={post} isProfile={false} />
             </CardContent>
           </Card>
         ))}
       </InfiniteScroll>
+
+      <FloatingActions refetchPosts={refetchPosts} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ const PostCaptions = ({ post }) => {
   if (!post?.caption) return null;
 
   return (
-    <div className="mt-4 mb-1">
+    <div className="">
       <ExpandableText text={post?.caption} />
     </div>
   );

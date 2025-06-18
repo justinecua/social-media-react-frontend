@@ -90,8 +90,10 @@
   --button-hover-bg-color: #dddddd;
   --input-login: #2f2e2f;
   --button-color-bg: #2442de;
+  --button-color-bg-hover: #1b39d1;
   --button-color-text: #2f2e2f;
   --text-color-dateTime: #676766;
+  --photo-bg: #f1f1f1;
 }
 
 .dark {
@@ -135,8 +137,10 @@
   --button-hover-bg-color: #0c0c0f;
   --input-login: #2f2e2f;
   --button-color-bg: #2442de;
+  --button-color-bg-hover: #1632c0;
   --button-color-text: #ffffff;
   --text-color-dateTime: #676766;
+  --photo-bg: #181818;
 }
 
 @layer base {

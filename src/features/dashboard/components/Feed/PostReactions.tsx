@@ -12,19 +12,29 @@ import CommentModal from "../modal/CommentModal";
 
 import { useNavigate } from "react-router-dom";
 import { getStoredUser } from "@/utils/auth";
+import {
+  useSendGlowMutation,
+  useSendunGlowMutation,
+} from "@/redux/services/posts/posts";
+import { send } from "process";
+import { toast } from "sonner";
 
 const PostReactions = ({ item, isProfile = false }) => {
   const [glowStates, setGlowStates] = useState({});
   const [commentStates, setCommentStates] = useState({});
   const { resolvedTheme } = useTheme();
-  const user = getStoredUser();
   const [showAlert, setShowAlert] = useState(false);
   const [showComment, setShowComment] = useState(false);
   const navigate = useNavigate();
+  const [sendGlow] = useSendGlowMutation();
+  const [sendunGlow] = useSendunGlowMutation();
+
+  const user = getStoredUser();
+  const accId = user?.user?.account_id;
 
   const reactColorBg = isProfile
     ? "bg-[var(--home-card)]"
-    : "bg-[var(--background)]";
+    : "bg-[var(--photo-bg)]";
 
   let glowOn = glowOnOriginal;
   let glowOff = glowOffOriginal;
@@ -40,16 +50,52 @@ const PostReactions = ({ item, isProfile = false }) => {
     commentOff = commentOutBlack;
   }
 
-  const toggleGlow = (postId) => {
-    if (user) {
-      setGlowStates((prev) => ({
-        ...prev,
-        [postId]: !prev[postId],
-      }));
-      console.log("User is logged in:", user.username || user.id);
-    } else {
-      console.log("User is not logged in.");
+  /*---------------------------- Like Algorithm ------------------------ */
+
+  //case: Each post has an array of users who glows it
+  //1. Get the account_id of the user from the localStorage
+  //2. To check if the user glowed a post:
+  //Check if that account_id exists on the glowers array in each post
+
+  //Note: ?? means if the value on the left is null or undefined , use the value on the right -> Commented on June 10, 2025
+
+  //sample:
+  // item?.glowers?.forEach((glowerId) => {
+  //   glowerId === accId ? true : false;
+  // });
+  //or just simply:
+  //item?.glowers?.includes(accId);
+
+  const toggleGlow = async (postId) => {
+    if (!user) {
       setShowAlert(true);
+      return;
+    }
+
+    const payload = {
+      postId: postId,
+      accID: accId,
+    };
+
+    const currentlyGlowed =
+      glowStates[postId] ?? item?.glowers?.includes(accId);
+
+    setGlowStates((prev) => ({
+      ...prev,
+      [postId]: !currentlyGlowed,
+    }));
+
+    try {
+      if (currentlyGlowed) {
+        const response = await sendunGlow(payload).unwrap();
+        toast(response.message);
+      } else {
+        const response = await sendGlow(payload).unwrap();
+        toast(response.message);
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong.");
     }
   };
 
@@ -67,19 +113,22 @@ const PostReactions = ({ item, isProfile = false }) => {
     }
   };
 
-  const isGlowOn = glowStates[item.id] || false;
+  const initiallyGlowed = item?.glowers?.includes(accId);
+  const isGlowOn = glowStates[item.id] ?? initiallyGlowed ?? false;
   const isCommentOn = commentStates[item.id] || false;
+
+  /*---------------------------- Like Algorithm ------------------------ */
 
   return (
     <>
       <div className="flex gap-2 w-full">
         <button
           onClick={() => toggleGlow(item.id)}
-          className={`${reactColorBg} flex items-center mt-1 px-3 py-2 rounded-lg transition-transform duration-150 relative overflow-hidden cursor-pointer
+          className={`flex  items-center mt-1 px-3 py-2 rounded-lg transition-transform duration-150 relative overflow-hidden cursor-pointer
         ${
           isGlowOn
             ? "bg-[#2442de] animate-pulse shadow-[0_2px_13px_#2442de]"
-            : "bg-[var(--button-bg-color)]"
+            : "bg-[var(--photo-bg)]"
         }`}
         >
           <img
@@ -96,13 +145,15 @@ const PostReactions = ({ item, isProfile = false }) => {
                 : "text-[#f9f8fa]"
             }`}
           >
-            {item?.glow_count}
+            {item?.glow_count +
+              (glowStates[item.id] === true && !initiallyGlowed ? 1 : 0) -
+              (glowStates[item.id] === false && initiallyGlowed ? 1 : 0)}
           </span>
         </button>
 
         <button
           onClick={toggleComment}
-          className={`flex items-center mt-1 px-3 py-2 rounded-lg ${reactColorBg} transition-transform duration-150 cursor-pointer`}
+          className={`flex bg-[var(--photo-bg)] items-center mt-1 px-3 py-2 rounded-lg transition-transform duration-150 cursor-pointer`}
         >
           <img
             src={isCommentOn ? commentOn : commentOff}
