@@ -31,14 +31,14 @@ const ProfileBio = ({ item, id }) => {
         <div className="flex flex-col items-center">
           <div className="flex items-center text-sm font-medium">
             <Diamond className="w-4 h-4 mr-1 text-[var(--accent-color)]" />{" "}
-            {isLoading ? "..." : totalGlows}
+            {isLoading ? "..." : totalGlows ?? 0}
           </div>
           <span className="text-sm text-[var(--color-subtitle)]">Glows</span>
         </div>
         <div className="flex flex-col items-center">
           <div className="flex items-center text-sm font-medium">
             <Users className="w-4 h-4 mr-1 text-[var(--accent-color)]" />
-            {isFetching ? "..." : totalFriends}
+            {isFetching ? "..." : totalFriends ?? 0}
           </div>
           <span className="text-sm text-[var(--color-subtitle)]">Friends</span>
         </div>

@@ -17,16 +17,17 @@ import { Toaster } from "@/components/ui/sonner";
 import ForgotPassword from "./features/auth/pages/ForgotPassword";
 import ResetPassword from "./features/auth/pages/ResetPassword";
 import { WebSocketProvider } from "./utils/WebSocketContext";
+import { useGetMeQuery } from "./redux/services/auth/auth";
 
 function App() {
   const dispatch = useDispatch();
+  const { data, error } = useGetMeQuery();
 
   useEffect(() => {
-    const storedUser = getStoredUser();
-    if (storedUser) {
-      dispatch(setUser(storedUser));
+    if (data?.user) {
+      dispatch(setUser(data.user));
     }
-  }, [dispatch]);
+  }, [data, dispatch]);
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">

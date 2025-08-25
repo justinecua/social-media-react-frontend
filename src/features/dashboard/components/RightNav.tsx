@@ -30,7 +30,7 @@ const RightNav = () => {
   const isAuthenticated = () => {
     return (
       <Card className="Left bg-[var(--home-card)] w-xs h-full hidden xl:block fixed right-0 rounded-none">
-        <CardContent className="flex flex-col justify-between h-full">
+        <CardContent className="flex flex-col justify-end h-full">
           <Link to={`/profile/${user?.user?.account_id}`}>
             <Button
               variant="outline"
@@ -46,7 +46,6 @@ const RightNav = () => {
               </span>
             </Button>
           </Link>
-          <div className=""></div>
         </CardContent>
       </Card>
     );

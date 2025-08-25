@@ -35,7 +35,7 @@ const LoginPage = () => {
     try {
       const res = await login({ username, password }).unwrap();
       console.log("Login successful:", res);
-      localStorage.setItem("user", JSON.stringify(res));
+      dispatch(setUser(res.user));
       navigate("/");
 
       dispatch(setUser(res));

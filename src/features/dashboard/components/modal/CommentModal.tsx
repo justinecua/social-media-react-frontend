@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import EmojiPicker from "emoji-picker-react";
 import { useTheme } from "@/components/themes/theme-provider";
 import { toast } from "sonner";
-import { useAddCommentMutation } from "@/redux/services/posts/posts";
+import { useAddCommentMutation } from "@/redux/services/interactions/interactions";
 
 const CommentModal = ({ open, onClose, post }) => {
   const hasPhotos = post?.photos?.length > 0;
