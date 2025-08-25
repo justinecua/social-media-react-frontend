@@ -70,25 +70,6 @@ export const receivedApi = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (response) => response,
     }),
-    addComment: builder.mutation({
-      query: (body) => ({
-        url: `/interactions/addComment/`,
-        method: "POST",
-        body: body,
-        timeout,
-      }),
-      transformResponse: (response) => response,
-      transformErrorResponse: (response) => response,
-    }),
-    checkUserFriendRequest: builder.query({
-      query: ({ friend_id, accId }) => ({
-        url: `/friends/checkUserFriendRequest/${friend_id}/${accId}/`,
-        method: "GET",
-        timeout,
-      }),
-      transformResponse: (response) => response,
-      transformErrorResponse: (response) => response,
-    }),
   }),
 });
 
@@ -100,6 +81,4 @@ export const {
   useCreatePostMutation,
   useSendGlowMutation,
   useSendunGlowMutation,
-  useAddCommentMutation,
-  useCheckUserFriendRequestQuery,
 } = receivedApi;

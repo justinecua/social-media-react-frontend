@@ -1,4 +1,6 @@
+import { store } from "@/redux/store/store";
+
 export function getStoredUser() {
-  const storedUser = localStorage.getItem("user");
-  return storedUser ? JSON.parse(storedUser) : null;
+  const state = store.getState();
+  return state.auth.user || null;
 }

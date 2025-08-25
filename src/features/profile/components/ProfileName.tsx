@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { getStoredUser } from "@/utils/auth";
-import { useEffect } from "react"; // 'use' is not a standard React hook, assuming a typo for 'useEffect'
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Loader2,
@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useWebSocket } from "@/utils/WebSocketContext";
-import { useCheckUserFriendRequestQuery } from "@/redux/services/posts/posts";
+import { useCheckUserFriendRequestQuery } from "@/redux/services/friends/friends";
 
 const ProfileName = ({ item, id }) => {
   const user = getStoredUser();

@@ -6,22 +6,50 @@ import {
   SquarePlus,
   LogOut,
   Loader2,
+  Bell,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { getStoredUser } from "@/utils/auth";
 import { Card, CardContent } from "@/components/ui/card";
 import CreatePostDialog from "./modal/CreatePostDialog";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLogoutMutation } from "@/redux/services/auth/auth";
+import NotifLeftBar from "./Notifications/NotifLeftBar";
+import NotificationsCount from "./Notifications/NotifCount";
 
 const LeftNav = () => {
   const user = getStoredUser();
   const [logout, { isLoading }] = useLogoutMutation();
   const dialogRef = useRef();
   const navigate = useNavigate();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notificationRef = useRef();
+
+  const toggleNotifications = () => {
+    setShowNotifications((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
+        setShowNotifications(false);
+      }
+    };
+
+    if (showNotifications) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showNotifications]);
 
   const handleLogout = async () => {
     const user = localStorage.getItem("user");
@@ -129,6 +157,20 @@ const LeftNav = () => {
               </div>
 
               <div
+                onClick={toggleNotifications}
+                className=" flex w-full items-center p-2 rounded-md hover:bg-[var(--button-hover-bg-color)] hover:text-[var(--button-text-color)] dark:hover:text-white cursor-pointer"
+              >
+                <Button variant="outline" size="icon" className="mr-3 relative">
+                  <Bell />
+                  <div className="absolute -top-2 -right-2">
+                    {" "}
+                    <NotificationsCount />
+                  </div>
+                </Button>
+                <span className="text-sm">Notifications</span>
+              </div>
+
+              <div
                 onClick={handleLogout}
                 className=" flex w-full items-center w-full p-2 rounded-md  hover:bg-[var(--button-hover-bg-color)] hover:text-[var(--button-text-color)] dark:hover:text-white cursor-pointer"
               >
@@ -148,6 +190,7 @@ const LeftNav = () => {
             <ModeToggle />
           </div>
         </div>
+        {showNotifications && <NotifLeftBar ref={notificationRef} />}
       </>
     );
   };
