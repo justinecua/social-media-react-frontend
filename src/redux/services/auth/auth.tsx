@@ -7,6 +7,7 @@ export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_HOST}/api/accounts/`,
+    credentials: "include",
     timeout: timeout,
   }),
   endpoints: (builder) => ({
@@ -15,10 +16,11 @@ export const authApi = createApi({
         url: "login/",
         method: "POST",
         body: body,
+        credentials: "include",
         timeout: timeout,
       }),
-      transformResponse: (response, meta, arg) => response,
-      transformErrorResponse: (response, meta, arg) => response,
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
     }),
     forgotPassword: builder.mutation({
       query: ({ ...body }) => ({
@@ -27,8 +29,8 @@ export const authApi = createApi({
         body: body,
         timeout: timeout,
       }),
-      transformResponse: (response, meta, arg) => response,
-      transformErrorResponse: (response, meta, arg) => response,
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
     }),
     resetPassword: builder.mutation({
       query: ({ token, new_password }) => ({
@@ -48,10 +50,11 @@ export const authApi = createApi({
         url: "token/refresh/",
         method: "POST",
         body: body,
+        credentials: "include",
         timeout: timeout,
       }),
-      transformResponse: (response, meta, arg) => response,
-      transformErrorResponse: (response, meta, arg) => response,
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
     }),
     logout: builder.mutation({
       query: ({ ...body }) => ({
@@ -60,8 +63,18 @@ export const authApi = createApi({
         body: body,
         timeout: timeout,
       }),
-      transformResponse: (response, meta, arg) => response,
-      transformErrorResponse: (response, meta, arg) => response,
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
+    }),
+    getMe: builder.query({
+      query: () => ({
+        url: "me/",
+        method: "GET",
+        credentials: "include",
+        timeout: timeout,
+      }),
+      transformResponse: (response) => response,
+      transformErrorResponse: (response) => response,
     }),
   }),
 });
@@ -72,4 +85,5 @@ export const {
   useForgotPasswordMutation,
   useResetPasswordMutation,
   useLogoutMutation,
+  useGetMeQuery,
 } = authApi;
